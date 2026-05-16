@@ -1,7 +1,6 @@
 {
     "tasks": {
-        "completed": [],
-        "pending": [
+        "completed": [
             {
                 "id": "T1",
                 "title": "Initialize Workspace Environment",
@@ -46,6 +45,7 @@
                 ],
                 "verification_criteria": "Charts cleanly animate and visually update data points smoothly every 2 seconds without visible full-screen flashing, UI blinking, or resetting user viewport positions."
             }
-        ]
+        ],
+        "pending": []
     }
 }
