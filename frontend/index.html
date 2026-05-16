@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPL Live Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        
+        <!-- Header Navigation -->
+        <header class="top-nav">
+            <div class="logo">
+                🏏 INDIAN PREMIER LEAGUE
+            </div>
+            <nav class="nav-links">
+                <a href="#">Home</a>
+                <a href="#" class="active">Overview</a>
+                <a href="#">Points Table</a>
+                <a href="#">Squads</a>
+            </nav>
+        </header>
+
+        <!-- Main Content Grid -->
+        <main class="main-grid">
+            
+            <!-- Left Column: Live Fixtures & Donut Charts -->
+            <section class="col-left">
+                <!-- Live Fixture Card -->
+                <div class="card fixture-card">
+                    <div class="fixture-tabs">
+                        <button class="tab">FIXTURE</button>
+                        <button class="tab active">LIVE</button>
+                        <button class="tab">RESULT</button>
+                    </div>
+                    <div class="fixture-details">
+                        <p class="match-info" id="match-info-text">RESULT - T20 - Start: Today</p>
+                        <div class="team-score">
+                            <span class="team"><span class="dot blue"></span> Team A</span>
+                            <span class="score" id="team-a-score">0/0</span>
+                        </div>
+                        <div class="team-score">
+                            <span class="team"><span class="dot green"></span> Team B</span>
+                            <span class="score" id="team-b-score">0/0</span>
+                        </div>
+                        <p class="status-text" id="live-status-text">Waiting for simulation...</p>
+                    </div>
+                </div>
+
+                <!-- 2x2 Donut Charts Grid -->
+                <div class="donuts-grid">
+                    <div class="card donut-card">
+                        <h3>Win Probability</h3>
+                        <div id="chart-win-prob" class="chart-container"></div>
+                    </div>
+                    <div class="card donut-card">
+                        <h3>Pace of Play</h3>
+                        <div id="chart-pace-of-play" class="chart-container"></div>
+                    </div>
+                    <div class="card donut-card">
+                        <h3>Scoring Strategy</h3>
+                        <div id="chart-scoring-strategy" class="chart-container"></div>
+                    </div>
+                    <div class="card donut-card">
+                        <h3>Match Progression</h3>
+                        <div id="chart-match-progression" class="chart-container"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Middle Column: Records & Squads -->
+            <section class="col-mid">
+                <!-- Records Card -->
+                <div class="card records-card" id="records-card">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Squads Table -->
+                <div class="card squads-card">
+                    <h3>Squads</h3>
+                    <div class="table-responsive">
+                        <table id="squads-table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>PlayerName</th>
+                                    <th>Team</th>
+                                    <th>Category</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Column: Schedule & Points Table -->
+            <section class="col-right">
+                <!-- Schedule Card -->
+                <div class="card schedule-card" id="schedule-card">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Points Table -->
+                <div class="card points-card">
+                    <h3>Points Table</h3>
+                    <div class="table-responsive">
+                        <table id="points-table">
+                            <thead>
+                                <tr>
+                                    <th>Logo</th>
+                                    <th>Team</th>
+                                    <th>M</th>
+                                    <th>W</th>
+                                    <th>L</th>
+                                    <th>PT</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

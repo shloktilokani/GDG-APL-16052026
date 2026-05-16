@@ -37,10 +37,10 @@ The system implements a decoupled, local three-tier architecture to ensure fast 
 * **State Management:** Holds a global list of received ball events in-memory (`current_match_history = []`). No database layer is utilized.
 * **Calculations Engine:** Processes raw numbers into 6 discrete analytical data objects required by the frontend configuration arrays.
 
-### Tier 3: Frontend Interface (`frontend/dashboard.py`)
+### Tier 3: Frontend Interface (`frontend/index.html` & `frontend/script.js`)
 
-* **Role:** Responsive user interface built with Streamlit and Highcharts.js.
-* **Polling Loop:** Houses a continuous client-side update wrapper (`while True:`) that triggers a GET request to the Middle Layer every 2 seconds to reconstruct the UI asynchronously without full-page reloads.
+* **Role:** Responsive user interface built with Vanilla HTML/CSS/JS and Highcharts.js/Chart.js.
+* **Polling Loop:** A JavaScript `setInterval` function fetching JSON from `/get_analytics` every 2 seconds, populating the DOM and dynamically updating the charts.
 
 ---
 
@@ -93,6 +93,18 @@ The response from `GET http://127.0.0.1:5000/get_analytics` must compile all com
       "singles": 35,
       "boundaries": 25
     },
+    "milestone_probability": {
+      "fifty_prob": 82.5,
+      "century_prob": 12.0
+    },
+    "milestones_tracked": {
+      "fifties": 2,
+      "centuries": 0
+    },
+    "over_wicket_ratio": {
+      "overs_pct": 71.0,
+      "wickets_pct": 30.0
+    },
     "phase_performance": {
       "powerplay": {"runs": 45, "wickets": 1, "run_rate": 7.5},
       "middle_overs": {"runs": 70, "wickets": 2, "run_rate": 8.2},
@@ -138,21 +150,12 @@ $$\text{Win Probability \%} = 100 - (\text{RRR} \times 6.5) - (\text{Wickets Los
 
 ## 5. UI Layout Blueprint
 
-The Streamlit layout must be grid-based, using `st.columns()` to preserve responsiveness across mobile, tablet, and desktop viewports.
+The HTML layout must be a CSS Grid-based 3-column design matching the provided mockup:
 
-* **Row 1 (Top Banner):** Large Metric Widgets (`st.metric`) presenting current Match Score, Active Over, and the Live Textual Context Generator.
-* **Row 2 (Primary Charts - Split 50/50):**
-* Left Column: Highcharts Live Predictive Probability Line Graph.
-* Right Column: Highcharts Momentum Wave Area Chart.
-
-
-* **Row 3 (Secondary Details - Split 33/33/33):**
-* Left Column: Matchup Status Block (Large color-coded card).
-* Middle Column: Boundary vs. Dot Ball Donut Chart.
-* Right Column: Phase Performance Cumulative Column Graph.
-
-
-* **Row 4 (Footer):** Live Player Impact Progress Gauges.
+* **Top Bar:** Logo, Navigation links (Home, Overview, Points Table, Squads).
+* **Left Column:** Live Fixture block. A 2x2 grid of Donut charts (Milestone Probabilities, Milestone Trackers, Ov vs W, Boundaries).
+* **Middle Column:** Player Records Card highlighting a specific stat (e.g., Orange Cap). Squads tabular list.
+* **Right Column:** Schedule Card. Points Table.
 
 ```
 

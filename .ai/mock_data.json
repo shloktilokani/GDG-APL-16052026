@@ -60,6 +60,18 @@
                 "singles": 0.0,
                 "boundaries": 33.3
             },
+            "milestone_probability": {
+                "fifty_prob": 82.5,
+                "century_prob": 12.0
+            },
+            "milestones_tracked": {
+                "fifties": 2,
+                "centuries": 0
+            },
+            "over_wicket_ratio": {
+                "overs_pct": 71.0,
+                "wickets_pct": 30.0
+            },
             "phase_performance_delta": {
                 "middle_overs": {
                     "runs_accumulated": 4,

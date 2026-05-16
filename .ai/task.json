@@ -46,6 +46,37 @@
                 "verification_criteria": "Charts cleanly animate and visually update data points smoothly every 2 seconds without visible full-screen flashing, UI blinking, or resetting user viewport positions."
             }
         ],
-        "pending": []
+        "pending": [
+            {
+                "id": "T6",
+                "title": "Update Context & Mock Data Configuration",
+                "description": "Modify settings.json, handoff.md, and mock_data.json to reflect the transition from Streamlit to Vanilla HTML/JS and include new analytical requirements.",
+                "dependencies": []
+            },
+            {
+                "id": "T7",
+                "title": "Middle Layer Advanced Analytics & Static Serving",
+                "description": "Refactor app.py to use Pandas for prediction. Add milestone probability predictors, Ov/W ratio, and /get_dashboard_meta. Configure Flask to serve static files from frontend/.",
+                "dependencies": ["T6"]
+            },
+            {
+                "id": "T8",
+                "title": "Build HTML Structure",
+                "description": "Create frontend/index.html matching the 3-column layout grid mockup.",
+                "dependencies": ["T7"]
+            },
+            {
+                "id": "T9",
+                "title": "Build CSS Styling",
+                "description": "Create frontend/style.css to style the dashboard using a rich, modern aesthetic.",
+                "dependencies": ["T8"]
+            },
+            {
+                "id": "T10",
+                "title": "Build JS Logic & Cleanup",
+                "description": "Create frontend/script.js to fetch data and render Highcharts. Delete frontend/dashboard.py.",
+                "dependencies": ["T9"]
+            }
+        ]
     }
 }
