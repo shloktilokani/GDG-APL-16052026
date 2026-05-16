@@ -1,0 +1,75 @@
+{
+    "sample_raw_ball_payloads": [
+        {
+            "comment": "Typical dot ball scenario",
+            "payload": {
+                "match_id": 101,
+                "inning": 1,
+                "over": 14.1,
+                "current_score": 111,
+                "wickets": 3,
+                "target_score": 185,
+                "balls_remaining": 35,
+                "runs_on_this_ball": 0,
+                "is_wicket_this_ball": false,
+                "extra_runs": 0,
+                "current_batter": "Virat Kohli",
+                "current_bowler": "Jasprit Bumrah"
+            }
+        },
+        {
+            "comment": "Boundary scenario to check momentum spike and impact score scaling",
+            "payload": {
+                "match_id": 101,
+                "inning": 1,
+                "over": 14.2,
+                "current_score": 115,
+                "wickets": 3,
+                "target_score": 185,
+                "balls_remaining": 34,
+                "runs_on_this_ball": 4,
+                "is_wicket_this_ball": false,
+                "extra_runs": 0,
+                "current_batter": "Virat Kohli",
+                "current_bowler": "Jasprit Bumrah"
+            }
+        },
+        {
+            "comment": "Wicket scenario to check probability drops and massive bowler impact score jump",
+            "payload": {
+                "match_id": 101,
+                "inning": 1,
+                "over": 14.3,
+                "current_score": 115,
+                "wickets": 4,
+                "target_score": 185,
+                "balls_remaining": 33,
+                "runs_on_this_ball": 0,
+                "is_wicket_this_ball": true,
+                "extra_runs": 0,
+                "current_batter": "Virat Kohli",
+                "current_bowler": "Jasprit Bumrah"
+            }
+        }
+    ],
+    "expected_middle_layer_aggregations": {
+        "description": "The math signature the Middle Layer must generate if the 3 balls above were the only ones received in the middle over phase",
+        "calculations_verify": {
+            "boundary_dot_distribution": {
+                "dots": 66.6,
+                "singles": 0.0,
+                "boundaries": 33.3
+            },
+            "phase_performance_delta": {
+                "middle_overs": {
+                    "runs_accumulated": 4,
+                    "wickets_accumulated": 1
+                }
+            },
+            "player_impact_snapshots": {
+                "virat_kohli_impact": 5,
+                "jasprit_bumrah_impact": 31
+            }
+        }
+    }
+}

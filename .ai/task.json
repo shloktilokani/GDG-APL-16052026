@@ -1,0 +1,51 @@
+{
+    "tasks": {
+        "completed": [],
+        "pending": [
+            {
+                "id": "T1",
+                "title": "Initialize Workspace Environment",
+                "description": "Create the targeted project directory tree exactly as specified: 'data_generator/', 'middle_layer/', and 'frontend/' directories inside the root folder.",
+                "dependencies": [],
+                "verification_criteria": "Directories must exist locally and be discoverable by the Python file system paths."
+            },
+            {
+                "id": "T2",
+                "title": "Develop Data Generator Service",
+                "description": "Write 'data_generator/generator.py' to establish an infinite simulation loop. It must logically step through a T20 cricket match state (incrementing overs sequentially, adding runs, tracking active batters/bowlers) and push the JSON ingestion payload via an HTTP POST request to 'http://127.0.0.1:5000/update_match' exactly every 5 seconds.",
+                "dependencies": [
+                    "T1"
+                ],
+                "verification_criteria": "Script runs without unhandled exceptions and successfully logs an HTTP 200/201 response status code from the server on every iteration."
+            },
+            {
+                "id": "T3",
+                "title": "Build Middle Layer Core Flask API",
+                "description": "Write 'middle_layer/app.py' to spin up a Flask application on port 5000. Integrate 'flask_cors' globally. Create an in-memory mutable list to append incoming payloads from 'POST /update_match'. Implement mathematical logic processing loops for the 30-ball sliding-window momentum score, dynamic win probability truncation bounds (1-99%), and individual player impact ratings. Expose 'GET /get_analytics' to output the aggregated Highcharts-ready JSON structure.",
+                "dependencies": [
+                    "T2"
+                ],
+                "verification_criteria": "Running 'curl -X GET http://127.0.0.1:5000/get_analytics' returns a perfectly structured nested JSON object containing calculated arrays matching the Handoff.md specification."
+            },
+            {
+                "id": "T4",
+                "title": "Construct Streamlit UI Layout Shell",
+                "description": "Write 'frontend/dashboard.py' utilizing 'st.set_page_config' for a wide, dark-themed layout. Use 'st.columns' to create a 4-row responsive grid layout matching the visual specification. Build a standard 'while True:' execution wrapper containing a 2-second 'time.sleep()' interval to continuously fetch fresh metrics from the Middle Layer API using 'requests.get'.",
+                "dependencies": [
+                    "T1",
+                    "T3"
+                ],
+                "verification_criteria": "The UI compiles cleanly via 'streamlit run frontend/dashboard.py' without triggering cyclic layout reruns or layout fragmentation."
+            },
+            {
+                "id": "T5",
+                "title": "Implement Highcharts Dynamic Components",
+                "description": "Embed Highcharts.js rendering via raw HTML injections using 'st.components.v1.html' or 'streamlit_highcharts'. Inject the target configurations for the Spline Line chart (Probability), Area Wave chart (Momentum), Donut Gauge (Boundary vs Dots), and Stacking Columns (Match Phases). Ensure the JavaScript arrays dynamically receive the continuous update variables fetched within the master polling loop inside 'st.empty()' blocks.",
+                "dependencies": [
+                    "T4"
+                ],
+                "verification_criteria": "Charts cleanly animate and visually update data points smoothly every 2 seconds without visible full-screen flashing, UI blinking, or resetting user viewport positions."
+            }
+        ]
+    }
+}
