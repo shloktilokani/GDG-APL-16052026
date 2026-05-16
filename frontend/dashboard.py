@@ -57,6 +57,15 @@ def fetch_data():
 
 def build_highcharts_html(chart_id, config):
     return f"""
+    <style>
+        body {{
+            background-color: #0e1117;
+            margin: 0;
+            padding: 0;
+            color: white;
+            overflow: hidden;
+        }}
+    </style>
     <div id="{chart_id}" style="width:100%; height:100%; min-height: 350px;"></div>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
@@ -82,15 +91,14 @@ while True:
             st.info(f"Batting: {summary['batter']} | Bowling: {summary['bowler']}")
             
         prob = analytics["win_probability"]
+        prob_hist = analytics.get("win_probability_history", [])
         prob_config = {
-            "chart": {"type": "bar", "backgroundColor": "transparent"},
+            "chart": {"type": "spline", "backgroundColor": "transparent"},
             "title": {"text": "Live Win Probability", "style": {"color": "#fff"}},
-            "xAxis": {"categories": ["Win Prob %"], "labels": {"style": {"color": "#fff"}}},
-            "yAxis": {"min": 0, "max": 100, "title": {"text": "%", "style": {"color": "#fff"}}},
-            "plotOptions": {"series": {"stacking": "normal"}},
+            "xAxis": {"title": {"text": "Over", "style": {"color": "#fff"}}, "labels": {"style": {"color": "#fff"}}},
+            "yAxis": {"min": 0, "max": 100, "title": {"text": "Win Prob %", "style": {"color": "#fff"}}, "labels": {"style": {"color": "#fff"}}},
             "series": [
-                {"name": "Batting Team", "data": [prob["team_a"]], "color": "#00ffcc"},
-                {"name": "Bowling Team", "data": [prob["team_b"]], "color": "#ff3366"}
+                {"name": "Batting Team", "data": prob_hist, "color": "#00ffcc"}
             ],
             "credits": {"enabled": False}
         }

@@ -56,22 +56,27 @@ def get_analytics():
     else:
         matchup_status = "Balanced"
         
-    # 2. Predictive Win Probability
-    runs_needed = max(0, latest["target_score"] - latest["current_score"])
-    balls_remaining = latest["balls_remaining"]
-    wickets_lost = latest["wickets"]
+    # 2. Predictive Win Probability (Current and History)
+    win_prob_history = []
     
-    if balls_remaining > 0 and runs_needed > 0:
-        rrr = runs_needed / (balls_remaining / 6.0)
-        win_prob = 100 - (rrr * 6.5) - (wickets_lost * 7.5)
-    elif runs_needed <= 0:
-        win_prob = 99.0
-    else:
-        win_prob = 1.0
+    for b in current_match_history:
+        r_needed = max(0, b["target_score"] - b["current_score"])
+        b_rem = b["balls_remaining"]
+        w_lost = b["wickets"]
         
-    # Strictly bound between 1.0 and 99.0
-    win_prob = max(1.0, min(99.0, win_prob))
-    team_a_prob = round(win_prob, 1)
+        if b_rem > 0 and r_needed > 0:
+            rate = r_needed / (b_rem / 6.0)
+            wp = 100 - (rate * 6.5) - (w_lost * 7.5)
+        elif r_needed <= 0:
+            wp = 99.0
+        else:
+            wp = 1.0
+            
+        wp = max(1.0, min(99.0, wp))
+        win_prob_history.append([b["over"], round(wp, 1)])
+        
+    latest_prob = win_prob_history[-1][1] if win_prob_history else 50.0
+    team_a_prob = latest_prob
     team_b_prob = round(100.0 - team_a_prob, 1)
     
     # 3. Boundary Dot Distribution (Counts or Percentages, returning percentages based on mock data)
@@ -143,6 +148,7 @@ def get_analytics():
                 "team_a": team_a_prob,
                 "team_b": team_b_prob
             },
+            "win_probability_history": win_prob_history,
             "boundary_dot_distribution": {
                 "dots": dots_pct,
                 "singles": singles_pct,
